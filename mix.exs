@@ -5,9 +5,11 @@ defmodule CalendarRecurrence.MixProject do
     [
       app: :calendar_recurrence,
       version: "0.1.0",
-      elixir: "~> 1.6",
+      elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      aliases: aliases(),
+      source_url: "https://github.com/wojtekmach/calendar_recurrence"
     ]
   end
 
@@ -19,9 +21,16 @@ defmodule CalendarRecurrence.MixProject do
 
   defp deps() do
     [
-      {:nimble_parsec, "~> 0.3", only: [:dev, :test]},
-      # TODO: use Hex package and add `optional: true`
-      {:calendar_interval, github: "wojtekmach/calendar_interval"}
+      {:nimble_parsec, "~> 1.3", only: [:dev, :test]},
+      {:calendar_interval, "~> 0.2.0", optional: true},
+      {:ex_doc, "~> 0.31", only: :dev, runtime: false},
+      {:tzdata, "~> 1.1", only: [:test]}
+    ]
+  end
+
+  defp aliases() do
+    [
+      "compile.rrule": ["nimble_parsec.compile lib/calendar_recurrence/rrule_parser.ex.exs"]
     ]
   end
 end
